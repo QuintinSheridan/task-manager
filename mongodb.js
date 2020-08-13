@@ -2,6 +2,8 @@
 const {MongoClient, ObjectID, Db} = require('mongodb')
 
 // set up connection string from environment variables
+// MONGODB_URL must be set using 'heroku config:set MONGODB_URL=<connection string> 
+// prior to deploying to heroku
 const connectionURL = process.env.MONGODB_URL
 const databaseName = 'task-manager'
 
