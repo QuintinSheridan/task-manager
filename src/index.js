@@ -15,3 +15,6 @@ app.use(task_router)
 app.listen(port, () => {
     console.log("app is up and running on port " + port)
 })
+
+
+console.log('Mongo URL: ', process.env.MONGODB_URL)
