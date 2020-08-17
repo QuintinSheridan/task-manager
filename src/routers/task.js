@@ -33,7 +33,7 @@ router.get('/tasks', auth,  async (req, res) => {
         const parts = req.query.sortBy.split(':')
         sort[parts[0]] = parts[1] === 'desc' ? -1: 1
     }
-    console.log('sort', sort)
+    // console.log('sort', sort)
     try {
         await req.user.populate({
             path: 'tasks',
@@ -71,7 +71,7 @@ router.get('/tasks/:id', auth, async (req, res) => {
 
 //patch task
 router.patch('/tasks/:id', auth, async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     const _id = req.params.id
     const updates = Object.keys(req.body)
     const allowedUpdates = ['description', 'completed']

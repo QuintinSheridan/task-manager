@@ -13,9 +13,9 @@ router.post('/users', async (req, res) => {
 
     try {
         await user.save()
-        console.log('sending email')
+        // console.log('sending email')
         sendWelcomeEmail(user.email, user.name)
-        console.log('email sent')
+        // console.log('email sent')
         const token = await user.generateAuthToken()
 
         res.status(201).send({ user, token })
@@ -29,9 +29,9 @@ router.post('/users', async (req, res) => {
 router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
-        console.log(user)
+        // console.log(user)
         const token = await user.generateAuthToken()
-        console.log(token)
+        // console.log(token)
         res.send({ user, token })
     } catch (e) {
         res.status(400).send(e)
@@ -82,12 +82,12 @@ const avatar = multer({
 
 
 // upoload user profile images
-router.post('/users/profile/me/avatar',auth, avatar.single('avatar'), async (req, res) => {
-    console.log('uploading user profile')
+router.post('/users/me/avatar',auth, avatar.single('avatar'), async (req, res) => {
+    // console.log('uploading user profile')
     const buffer = await sharp(req.file.buffer).resize( {width:250, height:250}).png().toBuffer()
     req.user.avatar = buffer
     await req.user.save()
-    console.log(req.user)
+    // console.log(req.user)
     res.send('File uploaded')
 }, (error, req, res, next) => {
     // Don't send back html that exposes unnecessary information
@@ -96,7 +96,7 @@ router.post('/users/profile/me/avatar',auth, avatar.single('avatar'), async (req
 
 
 //delete user avatar
-router.delete('/users/profile/me/avatar', auth, async (req, res) => {
+router.delete('/users/me/avatar', auth, async (req, res) => {
     req.user.avatar = undefined
     await req.user.save()
     res.status(204).send()
@@ -111,7 +111,7 @@ router.get('/users/:id/avatar', async(req, res) => {
         const user = await User.findById(req.params.id)
 
         if(!user|!user.avatar) {
-            console.log('user or avatar not found')
+            // console.log('user or avatar not found')
             throw new Error()
         }
 
@@ -131,7 +131,7 @@ router.get('/users/me', auth, async (req, res) => {
 
 // get user
 router.get('/users/:id', async (req, res) => {
-    console.log(req.params)
+    // console.log(req.params)
     const _id = req.params.id
     try {
         const user = await User.findById(_id)
